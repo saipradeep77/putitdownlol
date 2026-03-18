@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚨 DROP THAT IDEA — Shiny Object Syndrome Intervention</title>
+<meta name="description" content="Got a new startup idea? This page will talk you out of it. A public service for indie hackers everywhere.">
+<meta property="og:title" content="🚨 DROP THAT IDEA">
+<meta property="og:description" content="Got a new startup idea? Stop. Put it down. Go back to the thing that's already working.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🚨 DROP THAT IDEA">
+<meta name="twitter:description" content="A public service for indie hackers with shiny object syndrome.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Dela+Gothic+One&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #FF2E2E;
+    --yellow: #FFE12E;
+    --black: #0a0a0a;
+    --white: #f5f5f0;
+    --blue: #2E6FFF;
+    --green: #2EFF6F;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  .screen {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+  }
+
+  /* ====== SCREEN 1 ====== */
+  #screen-intro { background: var(--black); z-index: 10; }
+
+  .siren { font-size: 4rem; animation: siren-spin 1s ease-in-out infinite; margin-bottom: 1rem; }
+  @keyframes siren-spin { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
+
+  .big-question {
+    font-family: 'Dela Gothic One', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    text-align: center; line-height: 1.1; margin-bottom: 2rem; text-transform: uppercase;
+  }
+  .big-question .highlight { color: var(--yellow); position: relative; display: inline-block; }
+  .big-question .highlight::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 6px;
+    background: var(--red); animation: underline-pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes underline-pulse { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(0.6); } }
+
+  .subtitle { font-size: clamp(0.9rem, 2vw, 1.2rem); color: #888; text-align: center; margin-bottom: 3rem; max-width: 500px; }
+
+  .btn-yes {
+    background: var(--red); color: var(--white); border: none; padding: 1.2rem 3rem;
+    font-family: 'Dela Gothic One', sans-serif; font-size: 1.4rem; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; animation: btn-breathe 2s ease-in-out infinite;
+  }
+  .btn-yes:hover { transform: scale(1.1); box-shadow: 0 0 40px rgba(255, 46, 46, 0.5); }
+  @keyframes btn-breathe { 0%, 100% { box-shadow: 0 0 20px rgba(255,46,46,0.3); } 50% { box-shadow: 0 0 40px rgba(255,46,46,0.6); } }
+
+  .btn-no { background: transparent; color: #444; border: none; padding: 0.8rem 2rem; font-family: 'Space Mono', monospace; font-size: 0.85rem; cursor: pointer; margin-top: 1rem; transition: color 0.3s; }
+  .btn-no:hover { color: #888; }
+
+  /* ====== SCREEN 2 ====== */
+  #screen-intervention { display: none; background: var(--black); position: relative; overflow: hidden; }
+  #screen-intervention::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,46,46,0.03) 2px, rgba(255,46,46,0.03) 4px);
+    pointer-events: none; z-index: 1;
+  }
+
+  .tape-top {
+    position: absolute; top: 0; left: 0; width: 100%; background: var(--yellow); color: var(--black);
+    font-family: 'Dela Gothic One', sans-serif; font-size: 0.85rem; letter-spacing: 4px;
+    text-transform: uppercase; padding: 0.6rem 0; overflow: hidden; white-space: nowrap; z-index: 5;
+  }
+  .tape-top span { display: inline-block; animation: scroll-tape 15s linear infinite; }
+  @keyframes scroll-tape { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .intervention-content { position: relative; z-index: 2; text-align: center; max-width: 700px; padding-top: 3rem; }
+
+  .step-counter {
+    font-family: 'Dela Gothic One', sans-serif; font-size: clamp(6rem, 15vw, 10rem); color: var(--red);
+    opacity: 0.15; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    z-index: 0; pointer-events: none; user-select: none;
+  }
+
+  .intervention-title { font-family: 'Dela Gothic One', sans-serif; font-size: clamp(1.8rem, 5vw, 3.2rem); margin-bottom: 1.5rem; line-height: 1.2; position: relative; z-index: 2; }
+  .intervention-body { font-size: 1.1rem; line-height: 1.8; color: #bbb; margin-bottom: 2rem; position: relative; z-index: 2; }
+  .intervention-body strong { color: var(--yellow); }
+  .handwritten { font-family: 'Caveat', cursive; font-size: 1.8rem; color: var(--red); transform: rotate(-2deg); display: inline-block; margin: 1rem 0; }
+
+  .btn-next {
+    background: transparent; color: var(--white); border: 2px solid var(--white); padding: 1rem 2.5rem;
+    font-family: 'Space Mono', monospace; font-size: 1rem; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s; position: relative; z-index: 2; margin-top: 1rem;
+  }
+  .btn-next:hover { background: var(--white); color: var(--black); }
+
+  /* ====== SCREEN 3 ====== */
+  #screen-quote { display: none; background: var(--yellow); color: var(--black); }
+  .quote-content { max-width: 800px; text-align: center; }
+  .quote-marks { font-family: 'Dela Gothic One', sans-serif; font-size: 8rem; line-height: 0.5; color: var(--red); opacity: 0.4; }
+  .quote-text { font-family: 'Dela Gothic One', sans-serif; font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.4; margin: 1.5rem 0; }
+  .quote-author { font-size: 1rem; color: #333; margin-bottom: 2rem; }
+
+  .quote-counter { font-size: 0.75rem; color: #666; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1rem; }
+  .quote-dots { display: flex; gap: 8px; justify-content: center; margin-bottom: 2rem; }
+  .quote-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(0,0,0,0.15); transition: all 0.3s; }
+  .quote-dot.active { background: var(--black); transform: scale(1.3); }
+  .quote-fade { animation: quoteFade 0.5s ease-out forwards; }
+  @keyframes quoteFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ====== SCREEN 4 ====== */
+  #screen-verdict { display: none; background: var(--black); min-height: auto; padding: 4rem 2rem; }
+  .verdict-wrapper { display: flex; flex-direction: column; align-items: center; gap: 3rem; max-width: 900px; width: 100%; }
+
+  /* DIAGNOSIS CARD */
+  .diagnosis-card {
+    width: 100%; max-width: 520px; background: linear-gradient(145deg, #111 0%, #1a1a1a 100%);
+    border: 2px solid #333; padding: 2.5rem; position: relative; overflow: hidden;
+  }
+  .diagnosis-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+    background: linear-gradient(90deg, var(--red), var(--yellow), var(--red));
+    animation: gradient-slide 3s linear infinite; background-size: 200% 100%;
+  }
+  @keyframes gradient-slide { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #222; }
+  .card-logo { font-family: 'Dela Gothic One', sans-serif; font-size: 0.7rem; color: var(--red); letter-spacing: 3px; text-transform: uppercase; }
+  .card-date { font-size: 0.7rem; color: #999; }
+  .card-emoji { font-size: 3.5rem; text-align: center; margin: 1rem 0 0.5rem; }
+  .card-diagnosis { font-family: 'Dela Gothic One', sans-serif; font-size: 1.6rem; text-align: center; text-transform: uppercase; margin-bottom: 0.5rem; color: var(--white); }
+
+  .card-severity { text-align: center; margin-bottom: 1.5rem; }
+  .severity-bar { display: flex; gap: 4px; justify-content: center; margin-top: 0.5rem; }
+  .severity-block { width: 32px; height: 8px; background: #222; transition: background 0.3s; }
+  .severity-block.active { background: var(--red); }
+  .severity-block.active:nth-child(1) { background: var(--yellow); }
+  .severity-block.active:nth-child(2) { background: var(--yellow); }
+  .severity-block.active:nth-child(3) { background: orange; }
+  .severity-block.active:nth-child(4) { background: var(--red); }
+  .severity-block.active:nth-child(5) { background: var(--red); }
+  .severity-label { font-size: 0.7rem; color: var(--red); letter-spacing: 2px; text-transform: uppercase; margin-top: 0.5rem; }
+
+  .card-rx { background: #0d0d0d; padding: 1.2rem; margin: 1rem 0; }
+  .card-rx-label { font-size: 0.65rem; color: #888; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .card-rx-text { font-family: 'Caveat', cursive; font-size: 1.4rem; color: var(--green); line-height: 1.4; }
+
+  .card-id { display: flex; justify-content: space-between; margin-top: 1.2rem; font-size: 0.65rem; color: #777; }
+  .card-footer { text-align: center; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid #333; font-size: 0.75rem; color: #999; }
+  .card-footer a { color: var(--yellow); text-decoration: none; }
+
+  /* ACTIONS */
+  .verdict-actions { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+
+  .btn-share {
+    background: var(--blue); color: var(--white); border: none; padding: 1rem 2.5rem;
+    font-family: 'Dela Gothic One', sans-serif; font-size: 1rem; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-share:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(46, 111, 255, 0.4); }
+
+  .btn-go-back {
+    background: var(--green); color: var(--black); border: none; padding: 1rem 2.5rem;
+    font-family: 'Dela Gothic One', sans-serif; font-size: 1rem; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s;
+  }
+  .btn-go-back:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(46, 255, 111, 0.4); }
+
+  .btn-restart {
+    background: transparent; color: #999; border: 1px solid #444; padding: 0.7rem 1.5rem;
+    font-family: 'Space Mono', monospace; font-size: 0.8rem; cursor: pointer; transition: all 0.3s;
+  }
+  .btn-restart:hover { color: var(--white); border-color: var(--white); }
+
+  /* EMAIL */
+  .email-section { max-width: 520px; width: 100%; text-align: center; padding: 2rem; border: 1px dashed #555; margin-top: 1rem; }
+  .email-section h3 { font-family: 'Dela Gothic One', sans-serif; font-size: 1rem; margin-bottom: 0.5rem; color: var(--yellow); }
+  .email-section p { font-size: 0.8rem; color: #aaa; margin-bottom: 1rem; }
+  .email-form { display: flex; gap: 0; }
+  .email-input {
+    flex: 1; padding: 0.8rem 1rem; background: #111; border: 2px solid #333; color: var(--white);
+    font-family: 'Space Mono', monospace; font-size: 0.85rem; outline: none; transition: border-color 0.3s;
+  }
+  .email-input:focus { border-color: var(--yellow); }
+  .email-input::placeholder { color: #666; }
+  .email-btn {
+    padding: 0.8rem 1.5rem; background: var(--yellow); color: var(--black); border: 2px solid var(--yellow);
+    font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .email-btn:hover { background: var(--white); border-color: var(--white); }
+  .email-success { display: none; font-family: 'Caveat', cursive; font-size: 1.3rem; color: var(--green); }
+
+  /* FOOTER */
+  .footer { text-align: center; padding: 2rem; font-size: 0.75rem; color: #888; position: relative; z-index: 2; }
+  .footer a { color: #aaa; text-decoration: none; }
+  .footer a:hover { color: var(--yellow); }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: var(--green); color: var(--black); padding: 0.8rem 2rem;
+    font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700;
+    z-index: 1000; opacity: 0; transition: all 0.4s ease; pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+  /* FLOATING IDEAS */
+  .floating-idea {
+    position: fixed; font-size: 0.7rem; color: #222; pointer-events: none; z-index: 0;
+    white-space: nowrap; opacity: 0; animation: float-up 8s linear forwards;
+  }
+  @keyframes float-up {
+    0% { opacity: 0; transform: translateY(100vh) rotate(0deg); }
+    10% { opacity: 0.3; } 90% { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-20vh) rotate(15deg); }
+  }
+
+  .fade-in { animation: fadeIn 0.8s ease-out forwards; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+  .shake { animation: shake 0.5s ease-in-out; }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); } 20% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); }
+  }
+
+  @media (max-width: 600px) {
+    .diagnosis-card { padding: 1.5rem; }
+    .siren { font-size: 3rem; }
+    .email-form { flex-direction: column; }
+    .email-btn { width: 100%; }
+    .severity-block { width: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- SCREEN 1 -->
+<div class="screen" id="screen-intro">
+  <div class="siren">🚨</div>
+  <h1 class="big-question">Got a<br><span class="highlight">new idea</span>?</h1>
+  <p class="subtitle">Be honest. You were about to start building something new instead of finishing what you already started, weren't you?</p>
+  <button class="btn-yes" onclick="startIntervention()">Yeah... I do</button>
+  <button class="btn-no" onclick="nope()">No, I'm focused</button>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="screen" id="screen-intervention">
+  <div class="tape-top">
+    <span>⚠️ SHINY OBJECT DETECTED &nbsp;&nbsp;&nbsp; ⚠️ SHINY OBJECT DETECTED &nbsp;&nbsp;&nbsp; ⚠️ SHINY OBJECT DETECTED &nbsp;&nbsp;&nbsp; ⚠️ SHINY OBJECT DETECTED &nbsp;&nbsp;&nbsp; ⚠️ SHINY OBJECT DETECTED &nbsp;&nbsp;&nbsp; ⚠️ SHINY OBJECT DETECTED &nbsp;&nbsp;&nbsp; ⚠️ SHINY OBJECT DETECTED &nbsp;&nbsp;&nbsp; ⚠️ SHINY OBJECT DETECTED &nbsp;&nbsp;&nbsp;</span>
+  </div>
+  <div class="step-counter" id="stepCounter">01</div>
+  <div class="intervention-content" id="interventionContent"></div>
+</div>
+
+<!-- SCREEN 3 -->
+<div class="screen" id="screen-quote">
+  <div class="quote-content fade-in">
+    <div class="quote-counter" id="quoteCounter">1 / 3</div>
+    <div class="quote-marks">"</div>
+    <p class="quote-text" id="quoteText"></p>
+    <p class="quote-author" id="quoteAuthor"></p>
+    <div class="quote-dots" id="quoteDots"></div>
+    <button class="btn-next" id="quoteBtn" onclick="nextQuote()" style="background:var(--black);color:var(--yellow);border-color:var(--black);">Hit me with another</button>
+  </div>
+</div>
+
+<!-- SCREEN 4 -->
+<div class="screen" id="screen-verdict">
+  <div class="verdict-wrapper fade-in">
+    <div class="diagnosis-card" id="diagnosisCard">
+      <div class="card-header">
+        <div class="card-logo">putitdown.lol</div>
+        <div class="card-date" id="cardDate"></div>
+      </div>
+      <div class="card-emoji">🪞</div>
+      <div class="card-diagnosis" id="cardDiagnosis">Shiny Object<br>Syndrome</div>
+      <div class="card-severity">
+        <div class="severity-bar">
+          <div class="severity-block active"></div>
+          <div class="severity-block active"></div>
+          <div class="severity-block active"></div>
+          <div class="severity-block active"></div>
+          <div class="severity-block" id="severityBlock5"></div>
+        </div>
+        <div class="severity-label" id="severityLabel">Level 4 — Chronic</div>
+      </div>
+      <div class="card-rx">
+        <div class="card-rx-label">Prescription</div>
+        <div class="card-rx-text" id="rxText">Close this tab. Open your existing project. Ship one feature. Do not open Twitter for 2 hours.</div>
+      </div>
+      <div class="card-id">
+        <span>Case #<span id="caseNum"></span></span>
+        <span id="caseTime"></span>
+      </div>
+      <div class="card-footer">diagnosed at <a href="https://putitdown.lol">putitdown.lol</a></div>
+    </div>
+
+    <div class="verdict-actions">
+      <button class="btn-share" onclick="shareToTwitter()">𝕏 Share your diagnosis</button>
+      <button class="btn-go-back" onclick="goBack()">Close this tab & go ship</button>
+      <button class="btn-restart" onclick="restart()">But what if this idea is actually good?</button>
+    </div>
+
+    <div class="email-section" id="emailSection">
+      <h3>Need regular interventions?</h3>
+      <p>Get roasted every time you're about to start something new instead of shipping.</p>
+      <div class="email-form" id="emailForm">
+        <input type="email" class="email-input" id="emailInput" placeholder="founder@shinyobject.com">
+        <button class="email-btn" onclick="submitEmail()">Roast me</button>
+      </div>
+      <div class="email-success" id="emailSuccess">Good. Now go ship. We'll keep you honest. 🫡</div>
+    </div>
+
+    <div class="footer">
+      A public service for indie hackers everywhere.<br>
+      Built by <a href="https://x.com/itspradz" target="_blank">@itspradz</a> — who almost started a 3rd product today instead of finishing the first one.
+    </div>
+  </div>
+</div>
+
+<script>
+const interventionSteps = [
+  {
+    title: "Put the idea down. Slowly.",
+    body: `We know it feels amazing right now. The dopamine is flowing. You can already see the Product Hunt launch, the tweets, the MRR screenshots.<br><br>But answer this honestly: <strong>Do you have something that's already working?</strong><br><br><span class="handwritten">You do, don't you?</span>`,
+    btn: "Okay fine, yes I do"
+  },
+  {
+    title: "Your existing thing needs you.",
+    body: `Right now, somewhere in your browser, there's a tab with your <strong>actual product</strong> open. The one with real users. The one that's <em>this close</em> to breaking through.<br><br>And you're about to abandon it for an idea you had in the shower 20 minutes ago.<br><br><span class="handwritten">Classic.</span>`,
+    btn: "I feel attacked"
+  },
+  {
+    title: "The new idea will still be there.",
+    body: `Write it in a note. Put it in a Google Doc graveyard with the other 47 ideas. If it's truly great, it'll still be great in <strong>3 months</strong> when your current thing is actually shipping revenue.<br><br>But right now? It's a distraction dressed up as an opportunity.<br><br><span class="handwritten">You know this.</span>`,
+    btn: "Fine. Hit me with a quote."
+  }
+];
+
+const quotes = [
+  // Brutal honesty
+  { text: "The shiny new idea is a lie your brain tells you to avoid the hard work of finishing.", author: "— Every founder who's been through this" },
+  { text: "You don't need a new project. You need to send 50 more cold emails for the one you already have.", author: "— The voice in your head you keep ignoring" },
+  { text: "The best founders aren't idea people. They're finishing people.", author: "— Painful truth" },
+  { text: "Your half-built product has more potential than your brand new idea. One has users. The other has vibes.", author: "— Math" },
+  { text: "Every hour you spend on a new idea is an hour stolen from the thing that's actually working.", author: "— Opportunity cost" },
+  // Personal attacks
+  { text: "Switching projects doesn't make you versatile. It makes you a serial starter and a chronic non-finisher.", author: "— Your future self, disappointed" },
+  { text: "The graveyard of dead startups is full of founders who had great second ideas.", author: "— History" },
+  { text: "Bro you literally JUST tweeted about your current product 2 hours ago.", author: "— Your timeline, calling you out" },
+  { text: "Nobody ever got acquired for having the most ideas. They got acquired for shipping one thing really well.", author: "— Acquirers, unanimously" },
+  { text: "You don't have an idea problem. You have a follow-through problem.", author: "— Your journal, if you were honest in it" },
+  // Sarcastic
+  { text: "Oh cool, another idea. This one will definitely be different from the last 12 you abandoned.", author: "— Your notes app, overflowing" },
+  { text: "You're not pivoting. You're running away.", author: "— The difference matters" },
+  { text: "The domain registrar is not a hobby. Close the tab.", author: "— Your bank account" },
+  { text: "You have 6 browser tabs of competitor research for a product that doesn't exist yet. And zero tabs open for the one that does.", author: "— Chrome, snitching on you" },
+  { text: "That 'quick side project' you're about to start? It's going to take 4 months and make $0.", author: "— Statistics" },
+  // Motivational (tough love)
+  { text: "The boring middle is where all the money is. You just keep quitting before you get there.", author: "— Every successful solo founder" },
+  { text: "Your first product didn't fail because the idea was bad. It failed because you stopped working on it.", author: "— Probably the truth" },
+  { text: "Imagine if you spent the last 6 months on ONE thing instead of three. Where would you be?", author: "— The question you don't want to answer" },
+  { text: "Momentum compounds. But only if you stop resetting it every 3 weeks with a new idea.", author: "— Compound interest, applied to startups" },
+  { text: "The best product wins. Not the best idea. Products require finishing.", author: "— The market" },
+  // Relatable
+  { text: "You haven't even set up analytics on your current product but you're already wireframing the next one.", author: "— We see you" },
+  { text: "The new idea always looks better because it hasn't disappointed you yet. Give it time.", author: "— Experience" },
+  { text: "You know what's sexier than a new idea? Revenue from the old one.", author: "— Your future accountant" },
+  { text: "Right now someone less talented than you is making money from a worse idea. Because they shipped it.", author: "— The uncomfortable truth" },
+  { text: "Your existing product has a user who told a friend about it last week. Your new idea has zero of that.", author: "— Traction, begging you to stay" },
+  // Spicy
+  { text: "Starting is easy. Everyone starts. The internet is a graveyard of beautiful landing pages with no product behind them.", author: "— Product Hunt, every day" },
+  { text: "You're addicted to the feeling of starting. That's not entrepreneurship. That's procrastination with a business plan.", author: "— Tough love" },
+  { text: "Your new idea isn't better. It's just newer. There's a difference.", author: "— Logic" },
+  { text: "Tell me you have commitment issues without telling me you have commitment issues.", author: "— Your product portfolio" },
+  { text: "The only MVP that matters is the one you actually ship to real humans. Not the one in your head.", author: "— Reality check" },
+];
+
+const QUOTES_PER_SESSION = 3;
+let sessionQuotes = [];
+let currentQuoteIndex = 0;
+
+const prescriptions = [
+  "Close this tab. Open your existing project. Ship one feature. Do not open Twitter for 2 hours.",
+  "Write the idea in a note, close the note, and go fix that bug you've been ignoring for 3 weeks.",
+  "Unfollow 5 people who make you feel behind. Open your IDE. Ship something small. Repeat.",
+  "Your existing users are waiting. The imaginary users of your new idea are not. Choose wisely.",
+  "Step away from the domain registrar. I repeat: step away from the domain registrar.",
+  "The cure is boring: go do the marketing work on your existing product that you've been avoiding."
+];
+
+const deadIdeas = [
+  "AI-powered recipe app", "Uber for dog walking", "Tinder for co-founders",
+  "Yet another todo app", "AI wrapper #4,891", "Crypto dashboard",
+  "Social media scheduler", "Another CRM", "AI email writer",
+  "Notion template marketplace", "Twitter analytics tool", "Invoice generator",
+  "Habit tracker with AI", "Another landing page builder", "Podcast summarizer",
+  "AI chatbot builder", "Resume optimizer", "Newsletter platform",
+  "Freelancer marketplace", "Another Linktree clone", "API monitoring tool",
+  "Stripe analytics dashboard", "AI code reviewer", "Bookmark manager"
+];
+
+let currentStep = 0;
+
+function init() {
+  const now = new Date();
+  document.getElementById('cardDate').textContent = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  document.getElementById('caseNum').textContent = String(Math.floor(Math.random() * 90000) + 10000);
+  document.getElementById('caseTime').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+  const severities = [
+    { label: "Level 3 — Moderate", blocks: 3 },
+    { label: "Level 4 — Chronic", blocks: 4 },
+    { label: "Level 5 — Terminal", blocks: 5 },
+  ];
+  const severity = severities[Math.floor(Math.random() * severities.length)];
+  document.getElementById('severityLabel').textContent = severity.label;
+  if (severity.blocks >= 5) document.getElementById('severityBlock5').classList.add('active');
+
+  document.getElementById('rxText').textContent = prescriptions[Math.floor(Math.random() * prescriptions.length)];
+}
+init();
+
+function nope() {
+  const btn = document.querySelector('.btn-no');
+  btn.textContent = "Sure you are 😏";
+  btn.onclick = function() {
+    btn.textContent = "Then why are you on this site?";
+    btn.onclick = function() { startIntervention(); };
+  };
+}
+
+function startIntervention() {
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-intervention').style.display = 'flex';
+  showStep(0);
+  startFloatingIdeas();
+}
+
+function showStep(index) {
+  currentStep = index;
+  const step = interventionSteps[index];
+  document.getElementById('stepCounter').textContent = String(index + 1).padStart(2, '0');
+  document.getElementById('interventionContent').innerHTML = `
+    <h2 class="intervention-title fade-in">${step.title}</h2>
+    <p class="intervention-body fade-in" style="animation-delay:0.2s">${step.body}</p>
+    <button class="btn-next fade-in" style="animation-delay:0.4s" onclick="nextStep()">${step.btn}</button>
+  `;
+  document.getElementById('screen-intervention').classList.add('shake');
+  setTimeout(() => document.getElementById('screen-intervention').classList.remove('shake'), 500);
+}
+
+function nextStep() {
+  if (currentStep < interventionSteps.length - 1) showStep(currentStep + 1);
+  else showQuote();
+}
+
+function showQuote() {
+  document.getElementById('screen-intervention').style.display = 'none';
+  document.getElementById('screen-quote').style.display = 'flex';
+
+  // Pick 3 random unique quotes for this session
+  const shuffled = [...quotes].sort(() => Math.random() - 0.5);
+  sessionQuotes = shuffled.slice(0, QUOTES_PER_SESSION);
+  currentQuoteIndex = 0;
+
+  // Build dots
+  const dotsContainer = document.getElementById('quoteDots');
+  dotsContainer.innerHTML = sessionQuotes.map((_, i) =>
+    `<div class="quote-dot ${i === 0 ? 'active' : ''}" id="dot-${i}"></div>`
+  ).join('');
+
+  displayQuote(0);
+}
+
+function displayQuote(index) {
+  const quote = sessionQuotes[index];
+  const textEl = document.getElementById('quoteText');
+  const authorEl = document.getElementById('quoteAuthor');
+  const counterEl = document.getElementById('quoteCounter');
+  const btn = document.getElementById('quoteBtn');
+
+  // Fade effect
+  textEl.classList.remove('quote-fade');
+  authorEl.classList.remove('quote-fade');
+  void textEl.offsetWidth; // trigger reflow
+  textEl.classList.add('quote-fade');
+  authorEl.classList.add('quote-fade');
+
+  textEl.textContent = quote.text;
+  authorEl.textContent = quote.author;
+  counterEl.textContent = `${index + 1} / ${QUOTES_PER_SESSION}`;
+
+  // Update dots
+  document.querySelectorAll('.quote-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === index);
+  });
+
+  // Update button text
+  if (index < QUOTES_PER_SESSION - 1) {
+    btn.textContent = "Hit me with another";
+    btn.onclick = nextQuote;
+  } else {
+    btn.textContent = "Okay I get it. Show me the verdict.";
+    btn.onclick = showVerdict;
+  }
+}
+
+function nextQuote() {
+  currentQuoteIndex++;
+  if (currentQuoteIndex < QUOTES_PER_SESSION) {
+    displayQuote(currentQuoteIndex);
+  } else {
+    showVerdict();
+  }
+}
+
+function showVerdict() {
+  document.getElementById('screen-quote').style.display = 'none';
+  document.getElementById('screen-verdict').style.display = 'flex';
+}
+
+function shareToTwitter() {
+  const severity = document.getElementById('severityLabel').textContent;
+  const tweets = [
+    `🚨 I've been officially diagnosed with Shiny Object Syndrome (${severity})\n\nPrescription: Go back to the thing I'm already building.\n\nGet your diagnosis →`,
+    `Just got diagnosed with Shiny Object Syndrome (${severity}) 💀\n\nI was THIS close to starting a new project instead of shipping.\n\nThis page is a personal attack →`,
+    `My official diagnosis: Shiny Object Syndrome — ${severity} 🪞\n\nIf you're an indie hacker, do NOT visit this site. You'll feel exposed.\n\n`,
+  ];
+  const text = tweets[Math.floor(Math.random() * tweets.length)];
+  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent('https://putitdown.lol')}`, '_blank');
+}
+
+function goBack() {
+  const btn = document.querySelector('.btn-go-back');
+  btn.textContent = "NOW GO SHIP 🚀";
+  btn.onclick = function() {
+    window.close();
+    setTimeout(() => {
+      btn.textContent = "WHY ARE YOU STILL HERE?";
+      btn.style.background = 'var(--red)';
+      btn.style.color = 'var(--white)';
+    }, 300);
+  };
+}
+
+function restart() {
+  const diagnosis = document.getElementById('cardDiagnosis');
+  const rx = document.getElementById('rxText');
+  const severity = document.getElementById('severityLabel');
+  const btn = document.querySelector('.btn-restart');
+
+  diagnosis.innerHTML = "DOUBLE<br>DIAGNOSIS";
+  diagnosis.style.color = 'var(--red)';
+  severity.textContent = "Level 99 — Incurable";
+  document.querySelectorAll('.severity-block').forEach(b => b.classList.add('active'));
+  rx.textContent = "You literally just went through the whole intervention and you STILL think the new idea is good. There is no helping you. Close. This. Tab.";
+  btn.textContent = "...okay fine";
+  btn.onclick = function() {
+    diagnosis.innerHTML = "GO.<br>SHIP.";
+    diagnosis.style.color = 'var(--green)';
+    severity.textContent = "Status: Recovering";
+    rx.textContent = "We believe in you. The existing thing is the thing. Ship it. 🚀";
+    btn.style.display = 'none';
+  };
+}
+
+function submitEmail() {
+  const input = document.getElementById('emailInput');
+  const btn = document.querySelector('.email-btn');
+  const email = input.value.trim();
+  if (!email || !email.includes('@')) {
+    input.style.borderColor = 'var(--red)';
+    input.setAttribute('placeholder', 'seriously, enter a real email');
+    return;
+  }
+
+  btn.textContent = 'Saving...';
+  btn.disabled = true;
+
+  fetch('https://formspree.io/f/maqpanbb', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ email: email })
+  })
+  .then(res => {
+    if (res.ok) {
+      document.getElementById('emailForm').style.display = 'none';
+      document.getElementById('emailSuccess').style.display = 'block';
+      showToast('Email saved. Roasts incoming.');
+    } else {
+      btn.textContent = 'Roast me';
+      btn.disabled = false;
+      input.style.borderColor = 'var(--red)';
+      showToast('Something went wrong. Try again.');
+    }
+  })
+  .catch(() => {
+    btn.textContent = 'Roast me';
+    btn.disabled = false;
+    showToast('Network error. Try again.');
+  });
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+function startFloatingIdeas() {
+  setInterval(() => {
+    const idea = document.createElement('div');
+    idea.className = 'floating-idea';
+    idea.textContent = '💀 ' + deadIdeas[Math.floor(Math.random() * deadIdeas.length)];
+    idea.style.left = Math.random() * 90 + 'vw';
+    idea.style.animationDuration = (6 + Math.random() * 6) + 's';
+    document.body.appendChild(idea);
+    setTimeout(() => idea.remove(), 12000);
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
